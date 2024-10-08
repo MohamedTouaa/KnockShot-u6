@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86356c65269e24441b830d0ca9ce5360, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier: 
+  accessToken: user_at_NjDR171p2wvTOO0tRApxRS2bxLtj6CXAf2p6yRpNSUzCAy5h3egSRVeeVACGs3fu
+  appName: 
+  appDescription: 
+  appUrl: 
+  timeoutHours: 24
+  usePopup: 1
+  currentApp:
+    id: 5a5f908b-324f-4f20-975a-cbff287a98b7
+    secretKey: app_sk_TYrFodBney4Wkvol7N266UMOFWtk_J_U3A3y8k7NkoX2ygbgzAdRwmGMuhFtczKk
+    name: HyplayGame
+    description: Hyplay GameJam submission
+    redirectUris:
+    - https://itch.io/ /
+    - myapp://token
+    - http://localhost
+    - https://html-classic.itch.zone/html/
+    - http://127.0.0.1:5500/index.html
+    - http://127.0.0.1:5500/redirect.html
+    url: 'https://itch.io/ '
+    iconImageAsset:
+      id: 9995ace8-2172-47a5-a23a-a38497b67820
+      cdnUrl: https://assets.hyplay.com/58e135c6-3b5f-41b1-9c8c-4a25d6b2cb8c/1eed97dfb7f983dfa67bef72318e097d-1727961991628.png
+    backgroundImageAsset:
+      id: 9995ace8-2172-47a5-a23a-a38497b67820
+      cdnUrl: https://assets.hyplay.com/58e135c6-3b5f-41b1-9c8c-4a25d6b2cb8c/1eed97dfb7f983dfa67bef72318e097d-1727961991628.png
