@@ -75,7 +75,7 @@ public class EnnemyMovement : MonoBehaviour
     {
         WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
 
-        while (gameObject.activeSelf)
+        while (gameObject.activeSelf && agent.isActiveAndEnabled)
         {
             agent.SetDestination(targetPosition.position);
             yield return Wait;
@@ -84,7 +84,21 @@ public class EnnemyMovement : MonoBehaviour
 
     public void StopFlanking(Transform player)
     {
-        targetPosition = player;
+       targetPosition.position = player.position;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Flank"))
+        {
+            Debug.Log("change position");
+            StopFlanking(other.gameObject.GetComponent<Flank>().playerPosition);
+        }
+        else
+        {
+            Debug.Log(other.ToString());
+        }
+    }
+
+   
 }
