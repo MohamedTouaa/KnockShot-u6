@@ -28,7 +28,7 @@ public class Bullet : PoolableObject
 
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<Player>().TakeDamage();  
+            
         }
 
         Disable();

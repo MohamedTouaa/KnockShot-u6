@@ -70,7 +70,7 @@ public class EnemyAttack : MonoBehaviour
         Player playerHealth = player.GetComponent<Player>();
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage();
+            playerHealth.Die(); 
         }
         else
         {

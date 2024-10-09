@@ -13,7 +13,10 @@ public class Shotgun : MonoBehaviour
     [SerializeField] private float knockbackForce = 5f;
     [SerializeField] private float cooldownTime = 1f; // Cooldown time in seconds
     [SerializeField] private float damageAmount = 20f;
-    [SerializeField] private LayerMask ignoreLayer; // LayerMask for the objects you want to hit
+    [SerializeField] private LayerMask ignoreLayer;
+
+    [SerializeField]
+    private Animator cameraAnimator;
 
     [SerializeField]
     private TrailRenderer trailRenderer;
@@ -40,6 +43,7 @@ public class Shotgun : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
         {
             animator.SetTrigger("Shoot");
+            cameraAnimator.SetTrigger("Shoot");
             Shoot();
             nextFireTime = Time.time + cooldownTime;
         }
