@@ -1,6 +1,7 @@
 using SmallHedge.SoundManager;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,8 @@ public class EnemyHealth : MonoBehaviour
     // Reference to the Animator
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private TextMeshProUGUI score;
 
     private const string DamageTrigger = "Damage";
     private const string DieTrigger = "Die";
@@ -111,7 +114,6 @@ public class EnemyHealth : MonoBehaviour
     {
       
         Debug.Log(gameObject.name + " died.");
-        manager.updateScore(10);
         animator.SetTrigger(DieTrigger);
         StartCoroutine(DieAfterAnimation());
         FindObjectOfType<KillProgressBar>().AddKill();
@@ -119,6 +121,9 @@ public class EnemyHealth : MonoBehaviour
 
     private IEnumerator DieAfterAnimation()
     {
+        score.text = "+" + 10.ToString();
+        score.gameObject.GetComponent<Animator>().SetTrigger("Score");
+        manager.updateScore(10);
         yield return new WaitForSeconds(1f);
         spawner.killChaser++;
         this.gameObject.GetComponent<Ennemy>().OnDisable(); 
