@@ -49,4 +49,9 @@ public class ObjectPool
     {
         AvailableObjectsPool.Add(Object);
     }
+
+    public int GetAvailableObjectCount()
+    {
+        return AvailableObjectsPool.Count;
+    }
 }

@@ -8,10 +8,13 @@ public class EnemySpawner : MonoBehaviour
     public List<Transform> Playerposition;
     public Transform targetPosition;
     public int NumberOfEnemiesToSpawn = 5;
+    public int NeededEnnemies;
     public float SpawnDelay = 1f;
     public List<Ennemy> EnemyPrefabs = new List<Ennemy>();
     public List<Transform> SpawnPositions = new List<Transform>();
     public SpawnMethod EnemySpawnMethod = SpawnMethod.RoundRobin;
+
+    public int killChaser=0;
 
     private NavMeshTriangulation Triangulation;
     private Dictionary<int, ObjectPool> EnemyObjectPools = new Dictionary<int, ObjectPool>();
@@ -30,11 +33,59 @@ public class EnemySpawner : MonoBehaviour
 
 
         StartCoroutine(ChanegTarget());
-        StartCoroutine(SpawnEnemies());
+        StartCoroutine(SpawnEnnemiesWave());
 
 
        
     }
+
+    private IEnumerator SpawnEnnemiesWave()
+    {
+        WaitForSeconds Wait = new WaitForSeconds(SpawnDelay);
+
+        int SpawnedEnemies = 0;
+        int waveNumber = 1;
+
+        while (true) // Infinite loop to handle multiple waves
+        {
+            Debug.Log($"Wave {waveNumber} starting with {NeededEnnemies} enemies.");
+
+           
+            while (SpawnedEnemies < NeededEnnemies)
+            {
+                SpawnEnemyAtChosenPosition();
+                SpawnedEnemies++;
+                yield return Wait;
+            }
+
+         
+            yield return new WaitUntil(() => AreAllEnemiesInPool(NeededEnnemies,killChaser));
+
+           
+
+            Debug.Log($"Wave {waveNumber} finished. All enemies defeated.");
+
+            waveNumber++;
+            NeededEnnemies += 5; 
+
+          
+            SpawnedEnemies = 0;
+
+            yield return new WaitForSeconds(10);
+        }
+    }
+
+
+    private bool AreAllEnemiesInPool(int orginal, int remaining)
+    {
+        if (remaining == orginal)
+        {
+            killChaser = 0;
+            return true;
+        }
+        else return false;
+    }
+
 
     private IEnumerator SpawnEnemies()
     {
@@ -97,6 +148,10 @@ public class EnemySpawner : MonoBehaviour
         Transform chosenSpawnPoint = SpawnPositions[Random.Range(0, SpawnPositions.Count)];
         DoSpawnEnemyAtPosition(chosenSpawnPoint);
     }
+
+    
+
+   
 
     private void DoSpawnEnemy(int SpawnIndex)
     {
@@ -162,6 +217,7 @@ public class EnemySpawner : MonoBehaviour
         RoundRobin,
         Random,
         SpawnAtPosition,
+        Wave,
        
     }
 }

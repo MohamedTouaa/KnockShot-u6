@@ -30,9 +30,23 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     private Transform headTransform;
 
+
+    private EnemySpawner spawner;
+    private GameManager manager;
+ 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemySpawner>();
+        manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  
+    }
+    private void OnEnable()
+    {
+        currentHealth = maxHealth;
+        if (enemyMovement == null)
+        {
+            enemyMovement = GetComponent<EnnemyMovement>();
+        }
     }
 
     void Start()
@@ -95,7 +109,9 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
+      
         Debug.Log(gameObject.name + " died.");
+        manager.updateScore(10);
         animator.SetTrigger(DieTrigger);
         StartCoroutine(DieAfterAnimation());
     }
@@ -103,7 +119,8 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator DieAfterAnimation()
     {
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        spawner.killChaser++;
+        this.gameObject.GetComponent<Ennemy>().OnDisable(); 
     }
 
     // Function to spawn the VFX on hit

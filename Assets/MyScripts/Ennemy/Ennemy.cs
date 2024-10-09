@@ -10,6 +10,7 @@ public class Ennemy : PoolableObject
     public EnemyScriptableObject EnemyScriptableObject;
     private int health = 100;
 
+  
     public virtual void OnEnable()
     {
         SetupAgentFromConfiguration();
@@ -20,6 +21,9 @@ public class Ennemy : PoolableObject
         base.OnDisable();
 
         meshAgent.enabled = false;
+      
+        this.gameObject.SetActive(false);  
+   
     }
 
     public virtual void SetupAgentFromConfiguration()

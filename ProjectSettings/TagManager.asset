@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - FxTemporaire
   - Flank
+  - Spawner
+  - GameManager
   layers:
   - Default
   - TransparentFX
