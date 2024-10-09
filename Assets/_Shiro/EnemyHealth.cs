@@ -114,6 +114,7 @@ public class EnemyHealth : MonoBehaviour
         manager.updateScore(10);
         animator.SetTrigger(DieTrigger);
         StartCoroutine(DieAfterAnimation());
+        FindObjectOfType<KillProgressBar>().AddKill();
     }
 
     private IEnumerator DieAfterAnimation()
