@@ -341,6 +341,11 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 5057379174455360831}
+    - target: {fileID: 2142473054120714908, guid: 290a5d4e5b2e96a4a82514658e57caa0,
+        type: 3}
+      propertyPath: fieldOfViewAngle
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 2147519301318613412, guid: 290a5d4e5b2e96a4a82514658e57caa0,
         type: 3}
       propertyPath: m_Name

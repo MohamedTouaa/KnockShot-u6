@@ -34,6 +34,7 @@ public class Shotgun : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
+
     }
 
     private void Update()
@@ -120,17 +121,56 @@ public class Shotgun : MonoBehaviour
         Destroy(trail.gameObject, trail.time); // Destroy after trail fades
     }
 
-    private void ApplyKnockback()
+    [Header("Recoil")]  
+
+    public PlayerMovement playerMovement;
+    public float liftForce = 5f;
+    private bool canApplyLift = true;
+    public float liftCooldown = 0.5f;
+    [SerializeField] private float maxHeight = 10f; // Maximum height limit for knockback
+
+    public void ApplyKnockback()
     {
+        if (playerRigidbody == null || playerMovement == null) return;
+
         Vector3 knockbackDirection = -cam.transform.forward;
-        playerRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+
+        // Apply knockback force horizontally
+        playerRigidbody.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode.Impulse);
+
+        // Apply vertical lift only if the player is below the maxHeight
+        if (playerRigidbody.position.y < maxHeight)
+        {
+            float heightAdjustment = Mathf.Clamp(maxHeight - playerRigidbody.position.y, 0, liftForce);
+            playerRigidbody.AddForce(Vector3.up * heightAdjustment, ForceMode.Impulse);
+        }
+
+        // Additional grounded check and lift with cooldown if needed
+        // if (playerMovement.grounded && canApplyLift)
+        // {
+        //     playerRigidbody.AddForce(Vector3.up * liftForce, ForceMode.Impulse);
+        //     canApplyLift = false;
+        //     StartCoroutine(ResetLift());
+        // }
     }
 
-    // Activate the one-shot power-up for a duration
+    private IEnumerator ResetLift()
+    {
+        yield return new WaitForSeconds(liftCooldown); 
+        canApplyLift = true; 
+    }
+
+
+
+    [Header("PowerUp")]
+    [SerializeField] private GameObject VFX;
+    
     public void ActivateOneShotPowerUp()
     {
+        
         isOneShotActive = true;
         powerUpEndTime = Time.time + powerUpDuration; // Set the time when the power-up will wear off
+        VFX.SetActive(true);
         Debug.Log("One-shot power-up activated! It will last for " + powerUpDuration + " seconds.");
     }
 
@@ -138,6 +178,7 @@ public class Shotgun : MonoBehaviour
     private void DeactivateOneShotPowerUp()
     {
         isOneShotActive = false;
+        VFX.SetActive(false);
         Debug.Log("One-shot power-up deactivated.");
     }
 }

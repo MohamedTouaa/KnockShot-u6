@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class KillProgressBar : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class KillProgressBar : MonoBehaviour
 
     // Reference to the Shotgun script to activate the one-shot power-up
     [SerializeField] private Shotgun shotgun;
-
+    [SerializeField] private TextMeshProUGUI surgeText;
     // This function should be called each time you kill an enemy
     public void AddKill()
     {
@@ -27,12 +28,14 @@ public class KillProgressBar : MonoBehaviour
         // Check if the bar is full
         if (currentKills >= killsRequired)
         {
-            // Activate the one-shot power-up on the Shotgun and prevent further kills from affecting the bar
+            surgeText.gameObject.GetComponent<Animator>().SetTrigger("Surge");
             StartCoroutine(ActivatePowerUp());
         }
     }
 
-    // Coroutine to handle the power-up duration
+    
+    
+
     private IEnumerator ActivatePowerUp()
     {
         powerUpActive = true;
@@ -42,6 +45,7 @@ public class KillProgressBar : MonoBehaviour
 
         // Activate the one-shot power-up in the Shotgun script
         shotgun.ActivateOneShotPowerUp();
+        
 
         // Wait for the power-up duration
         yield return new WaitForSeconds(powerUpDuration);

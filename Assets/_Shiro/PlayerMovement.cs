@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
+    public bool grounded;
 
     public Transform orientation;
 
@@ -38,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     [Header("HeadBop")]
-
     public bool enableHeadBob = true;
     public Transform joint;
     public float bobSpeed = 10f;
@@ -55,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
+        jointOriginalPos = joint.localPosition; // Store the original position of the head joint
     }
 
     private void Update()
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
         // handle friction
         if (grounded)
-            rb.linearDamping = groundDrag;
+            rb.linearDamping = groundDrag; // Set drag instead of linearDamping
         else
             rb.linearDamping = 0;
 
@@ -81,10 +81,9 @@ public class PlayerMovement : MonoBehaviour
     {
         MovePlayer();
         #region IsWalking Check
-        if (rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0 && grounded)
+        if (rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0 && grounded) // Use 'velocity' instead of 'linearVelocity'
         {
             isWalking = true;
-            //Debug.Log("Wokkin");
         }
         else
         {
@@ -99,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
 
@@ -115,36 +114,34 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         // on ground
-        if(grounded)
+        if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
-        // in airbnb
-        else if(!grounded)
+        // in air
+        else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
-
-       
     }
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z); // Use 'velocity' instead of 'linearVelocity'
 
-       
         // limit velocity if needed
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z); // Use 'velocity' instead of 'linearVelocity'
         }
     }
 
     private void Jump()
     {
         // reset y velocity
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z); // Use 'velocity' instead of 'linearVelocity'
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
+
     private void ResetJump()
     {
         readyToJump = true;
@@ -160,10 +157,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Resets when play stops moving
+            // Resets when player stops moving
             timer = 0;
-            joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
+            joint.localPosition = new Vector3(
+                Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed),
+                Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed),
+                Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
     }
 }
-
