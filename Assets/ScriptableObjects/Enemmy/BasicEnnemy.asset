@@ -25,4 +25,4 @@ MonoBehaviour:
   minSpeed: 4
   maxSpeed: 5.5
   Speed: 4
-  StoppingDistance: 1
+  StoppingDistance: 2

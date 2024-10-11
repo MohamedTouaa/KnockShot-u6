@@ -9,6 +9,7 @@ TagManager:
   - Flank
   - Spawner
   - GameManager
+  - Bomber
   layers:
   - Default
   - TransparentFX

@@ -1078,6 +1078,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstPersonController: {fileID: 5415766827843405237}
+  deathScreen: {fileID: 0}
+  globalVolume: {fileID: 0}
+  shotgun: {fileID: 0}
 --- !u!136 &8345789689368002632
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1766,6 +1769,8 @@ MonoBehaviour:
     type: 3}
   bulletSpawnPosition: {fileID: 5402466966324678558}
   BulletSpeed: 100
+  oneShotDamage: 100
+  powerUpDuration: 5
 --- !u!95 &4173058280062542041
 Animator:
   serializedVersion: 7
