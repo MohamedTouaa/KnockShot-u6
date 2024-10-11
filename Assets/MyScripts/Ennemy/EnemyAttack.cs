@@ -5,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] private float attackCooldown = 1.5f;    
-    [SerializeField] private Animator animator;             
+    [SerializeField] protected float attackCooldown = 1.5f;
+    [SerializeField] protected Animator animator; // Made protected to allow subclasses access
 
-    private bool isAttacking = false;                       
-    private Transform player;                               
-    private const string Attack = "Attack";                  
-    private SphereCollider attackRadius;                   
+    protected bool isAttacking = false;  // Changed to protected so it's accessible in derived classes
+    protected Transform player;          // Changed to protected so it's accessible in derived classes
+    protected const string Attack = "Attack";
+    private SphereCollider attackRadius;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackPlayer()
+    protected virtual IEnumerator AttackPlayer()
     {
        
         isAttacking = true;
@@ -64,7 +64,7 @@ public class EnemyAttack : MonoBehaviour
         StopAllCoroutines();
     }
 
-    private void ApplyDamageToPlayer()
+    protected virtual void ApplyDamageToPlayer()
     {
         // Assuming the player has a script like "PlayerHealth" to handle damage
         Player playerHealth = player.GetComponent<Player>();

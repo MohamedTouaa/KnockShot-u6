@@ -483,6 +483,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8751963667046410486, guid: 290a5d4e5b2e96a4a82514658e57caa0,
         type: 3}
+      propertyPath: Pow
+      value: 
+      objectReference: {fileID: 119183615461286708, guid: 141e1779869c79845bd243610f187f47,
+        type: 3}
+    - target: {fileID: 8751963667046410486, guid: 290a5d4e5b2e96a4a82514658e57caa0,
+        type: 3}
       propertyPath: score
       value: 
       objectReference: {fileID: 6058588715451115016}

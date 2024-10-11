@@ -10,5 +10,6 @@ namespace SmallHedge.SoundManager
         Hit,
         Roar,
         Music,
+        Explosion,
     }
 }

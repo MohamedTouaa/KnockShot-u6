@@ -15,8 +15,9 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     private Animator animator;
     [SerializeField]
-    private TextMeshProUGUI score;
+    protected TextMeshProUGUI score;
 
+  
     private const string DamageTrigger = "Damage";
     private const string DieTrigger = "Die";
 
@@ -28,14 +29,16 @@ public class EnemyHealth : MonoBehaviour
     // VFX prefab for hit effect
     [SerializeField]
     private GameObject hitVFX;
+    [SerializeField]
+    private GameObject Pow;
 
     // Reference to the enemy's head transform (assign this in the inspector)
     [SerializeField]
     private Transform headTransform;
 
 
-    private EnemySpawner spawner;
-    private GameManager manager;
+    protected EnemySpawner spawner;
+    protected GameManager manager;
  
     private void Awake()
     {
@@ -110,23 +113,26 @@ public class EnemyHealth : MonoBehaviour
         animator.SetBool("IsWalking", true);
     }
 
-    private void Die()
+    protected virtual void Die()
     {
-      
         Debug.Log(gameObject.name + " died.");
         animator.SetTrigger(DieTrigger);
         StartCoroutine(DieAfterAnimation());
         FindObjectOfType<KillProgressBar>().AddKill();
     }
 
+
     private IEnumerator DieAfterAnimation()
     {
-        score.text = "+" + 10.ToString();
-        score.gameObject.GetComponent<Animator>().SetTrigger("Score");
-        manager.updateScore(10);
-        yield return new WaitForSeconds(1f);
-        spawner.killChaser++;
-        this.gameObject.GetComponent<Ennemy>().OnDisable(); 
+       
+            score.text = "+" + 10.ToString();
+            score.gameObject.GetComponent<Animator>().SetTrigger("Score");
+            manager.updateScore(10);
+            yield return new WaitForSeconds(1f);
+            spawner.killChaser++;
+            this.gameObject.GetComponent<Ennemy>().OnDisable();
+      
+       
     }
 
     // Function to spawn the VFX on hit
@@ -135,6 +141,7 @@ public class EnemyHealth : MonoBehaviour
         if (hitVFX != null && headTransform != null)
         {
             Instantiate(hitVFX, headTransform.position, Quaternion.identity);
+            Instantiate(Pow,headTransform.position + new Vector3(0,1.5f,1f) , Quaternion.identity);
         }
     }
 }
