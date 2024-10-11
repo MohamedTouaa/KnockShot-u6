@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: 0d891367e46bc1948a196c3ce86b3320
-AssetOrigin:
-  serializedVersion: 1
-  productId: 145319
-  packageName: 3D Monster Bomb!!
-  packageVersion: 1.0
-  assetPath: Assets/JKT_ART/mon_00/textures/bomb_body.tif
-  uploadId: 308531
+guid: b6ef128c891144c47b41cb0e561c92de
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
