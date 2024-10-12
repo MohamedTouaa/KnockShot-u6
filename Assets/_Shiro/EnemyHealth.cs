@@ -70,7 +70,15 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= amount;
         Debug.Log(gameObject.name + " took damage: " + amount);
-        SoundManager.PlaySound(SoundType.Hit, null, 1f);
+        if(maxHealth > 100)
+        {
+            SoundManager.PlaySound(SoundType.Rock, null, 0.6f);
+        }
+        else
+        {
+            SoundManager.PlaySound(SoundType.Hit, null, 1f);
+        }
+       
 
         // Trigger the Damage animation
         animator.SetTrigger(DamageTrigger);
@@ -140,8 +148,16 @@ public class EnemyHealth : MonoBehaviour
     {
         if (hitVFX != null && headTransform != null)
         {
-            Instantiate(hitVFX, headTransform.position, Quaternion.identity);
-            Instantiate(Pow,headTransform.position + new Vector3(0,1.5f,1f) , Quaternion.identity);
+            if(maxHealth > 100)
+            {
+                Instantiate(Pow, headTransform.position + new Vector3(0, 4f, 2.5f), Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(hitVFX, headTransform.position, Quaternion.identity);
+                Instantiate(Pow, headTransform.position + new Vector3(0, 1.5f, 1f), Quaternion.identity);
+            }
+         
         }
     }
 }

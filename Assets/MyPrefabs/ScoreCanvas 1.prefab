@@ -822,6 +822,7 @@ MonoBehaviour:
   killsRequired: 25
   powerUpDuration: 8
   shotgun: {fileID: 0}
+  surgeText: {fileID: 0}
 --- !u!114 &3766301732083439222 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6394162570588637109, guid: 5f37fabc57afaf641a541dc9c9c92d02,

@@ -1,3 +1,4 @@
+using SmallHedge.SoundManager;
 using UnityEngine;
 
 public class LaunchPad : MonoBehaviour
@@ -16,7 +17,7 @@ public class LaunchPad : MonoBehaviour
             {
                 // Normalize the direction to ensure the force is consistent
                 Vector3 force = launchDirection.normalized * launchForce;
-
+                SoundManager.PlaySound(SoundType.Boing, null, 0.9f);
                 // Apply force to the player's Rigidbody
                 playerRb.AddForce(force, ForceMode.Impulse);
             }
@@ -33,7 +34,7 @@ public class LaunchPad : MonoBehaviour
             {
                 // Normalize the direction to ensure the force is consistent
                 Vector3 force = launchDirection.normalized * launchForce;
-
+                SoundManager.PlaySound(SoundType.Boing, null, 0.9f);
                 // Apply force to the player's Rigidbody
                 playerRb.AddForce(force, ForceMode.Impulse);
             }

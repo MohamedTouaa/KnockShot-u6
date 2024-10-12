@@ -53,3 +53,13 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 3b28af680f5cb4444bc5912317946edb, type: 3}
     - {fileID: 8300000, guid: fa554e4482edac14794b9edf7fbf0723, type: 3}
     - {fileID: 8300000, guid: 4e5c2bebd38c73b4e8802b3c1f7795d2, type: 3}
+  - name: Rock
+    volume: 1
+    mixer: {fileID: 2791425344621235404, guid: df147a578870e1347afc43054ac72976, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 244f21b72e73d654387e7e295ec854a0, type: 3}
+  - name: Boing
+    volume: 1
+    mixer: {fileID: 2791425344621235404, guid: df147a578870e1347afc43054ac72976, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: a5e03bdf68a774d7bbdd11fe48caaf4c, type: 3}

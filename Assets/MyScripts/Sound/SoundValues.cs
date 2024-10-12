@@ -11,5 +11,7 @@ namespace SmallHedge.SoundManager
         Roar,
         Music,
         Explosion,
+        Rock,
+        Boing,
     }
 }

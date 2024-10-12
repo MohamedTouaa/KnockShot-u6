@@ -1099,6 +1099,7 @@ GameObject:
   - component: {fileID: 1373915871}
   - component: {fileID: 1373915870}
   - component: {fileID: 1373915872}
+  - component: {fileID: 1373915873}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -1189,6 +1190,38 @@ MonoBehaviour:
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: d8aff70e2a833c74d9422bda75b9a599, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!114 &1373915873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373915869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_AgentTypeID: 287145453
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.33333334
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 4315f799fb6a13e4aaee3d19de9a3cf5, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1380691894 stripped
 GameObject:
@@ -1456,7 +1489,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 2006923745}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d600891bfae5432448d60288fa61f800, type: 3}
   m_Name: 
@@ -1546,7 +1579,8 @@ MonoBehaviour:
   m_fontAsset: {fileID: 11400000, guid: 4e4b0aa8ce73ae04691fdd97b94f42cd, type: 2}
   m_sharedMaterial: {fileID: 5844763006565578976, guid: 4e4b0aa8ce73ae04691fdd97b94f42cd,
     type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 5844763006565578976, guid: 4e4b0aa8ce73ae04691fdd97b94f42cd, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -1742,7 +1776,7 @@ PrefabInstance:
     - target: {fileID: 3416447216420294947, guid: af7f45761da87b844a514a334b1555f7,
         type: 3}
       propertyPath: knockbackForce
-      value: 16
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 3416447216420294947, guid: af7f45761da87b844a514a334b1555f7,
         type: 3}
@@ -1771,8 +1805,18 @@ PrefabInstance:
       objectReference: {fileID: 832575518}
     - target: {fileID: 5415766827843405237, guid: af7f45761da87b844a514a334b1555f7,
         type: 3}
-      propertyPath: m_Enabled
+      propertyPath: jumpForce
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415766827843405237, guid: af7f45761da87b844a514a334b1555f7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415766827843405237, guid: af7f45761da87b844a514a334b1555f7,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5415766827843405237, guid: af7f45761da87b844a514a334b1555f7,
         type: 3}
@@ -2466,13 +2510,19 @@ PrefabInstance:
     - target: {fileID: 3067188024105528435, guid: e38f529832a762344bfe008b04de87a1,
         type: 3}
       propertyPath: EnemyPrefabs.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3067188024105528435, guid: e38f529832a762344bfe008b04de87a1,
         type: 3}
       propertyPath: 'EnemyPrefabs.Array.data[1]'
       value: 
       objectReference: {fileID: 4806423969806999905, guid: 183f4cc5134bddf488084415f39b8d0f,
+        type: 3}
+    - target: {fileID: 3067188024105528435, guid: e38f529832a762344bfe008b04de87a1,
+        type: 3}
+      propertyPath: 'EnemyPrefabs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 4896900487391098630, guid: dea62ac6ee202e644a267635928d4ae3,
         type: 3}
     - target: {fileID: 3067188024105528435, guid: e38f529832a762344bfe008b04de87a1,
         type: 3}
