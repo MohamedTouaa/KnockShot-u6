@@ -134,8 +134,16 @@ public class EnemyHealth : MonoBehaviour
     {
        
             score.text = "+" + 10.ToString();
+         if (maxHealth > 100)
+        {
+            score.gameObject.GetComponent<Animator>().SetTrigger("Score2");
+        }
+         else
+        {
             score.gameObject.GetComponent<Animator>().SetTrigger("Score");
-            manager.updateScore(10);
+        }
+           
+            manager.updateScore(5);
             yield return new WaitForSeconds(1f);
             spawner.killChaser++;
             this.gameObject.GetComponent<Ennemy>().OnDisable();
