@@ -22,7 +22,7 @@ MonoBehaviour:
   Height: 0.5
   ObstacleAvoidanceType: 2
   Radius: 0.3
-  minSpeed: 7.5
-  maxSpeed: 8.5
+  minSpeed: 8
+  maxSpeed: 9
   Speed: 4
   StoppingDistance: 1

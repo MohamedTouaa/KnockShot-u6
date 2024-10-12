@@ -1,6 +1,5 @@
 using SmallHedge.SoundManager;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,7 +16,6 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     protected TextMeshProUGUI score;
 
-  
     private const string DamageTrigger = "Damage";
     private const string DieTrigger = "Die";
 
@@ -36,19 +34,22 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     private Transform headTransform;
 
-
     protected EnemySpawner spawner;
     protected GameManager manager;
- 
+
+    public bool hasDied = false; // Flag to ensure Die method is called once.
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemySpawner>();
-        manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  
+        manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
+
     private void OnEnable()
     {
         currentHealth = maxHealth;
+        hasDied = false; // Reset hasDied flag when enabled
         if (enemyMovement == null)
         {
             enemyMovement = GetComponent<EnnemyMovement>();
@@ -68,9 +69,12 @@ public class EnemyHealth : MonoBehaviour
     // Function to take damage
     public void TakeDamage(float amount)
     {
+        if (hasDied) return; // Prevent taking damage after death
+
         currentHealth -= amount;
         Debug.Log(gameObject.name + " took damage: " + amount);
-        if(maxHealth > 100)
+
+        if (maxHealth > 100)
         {
             SoundManager.PlaySound(SoundType.Rock, null, 0.6f);
         }
@@ -78,7 +82,6 @@ public class EnemyHealth : MonoBehaviour
         {
             SoundManager.PlaySound(SoundType.Hit, null, 1f);
         }
-       
 
         // Trigger the Damage animation
         animator.SetTrigger(DamageTrigger);
@@ -123,32 +126,42 @@ public class EnemyHealth : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (hasDied) return; // Ensure Die is called only once
+        hasDied = true;
+
         Debug.Log(gameObject.name + " died.");
         animator.SetTrigger(DieTrigger);
         StartCoroutine(DieAfterAnimation());
         FindObjectOfType<KillProgressBar>().AddKill();
     }
 
-
     private IEnumerator DieAfterAnimation()
     {
-       
-            score.text = "+" + 10.ToString();
-         if (maxHealth > 100)
+        int scoreadd;
+
+        if (maxHealth > 100)
         {
+            scoreadd = Random.Range(20, 45);
+            score.text = "+" + scoreadd;
             score.gameObject.GetComponent<Animator>().SetTrigger("Score2");
+            manager.updateScore(scoreadd);
         }
-         else
+        else
         {
+            scoreadd = Random.Range(10, 25);
+            score.text = "+" + scoreadd;
             score.gameObject.GetComponent<Animator>().SetTrigger("Score");
+            manager.updateScore(scoreadd);
         }
-           
-            manager.updateScore(5);
-            yield return new WaitForSeconds(1f);
-            spawner.killChaser++;
-            this.gameObject.GetComponent<Ennemy>().OnDisable();
-      
-       
+
+        // Wait for the death animation to finish before disabling
+        yield return new WaitForSeconds(1f);
+
+        // Increase the kill counter in the spawner
+        spawner.killChaser++;
+
+        // Disable the enemy
+        this.gameObject.GetComponent<Ennemy>().OnDisable();
     }
 
     // Function to spawn the VFX on hit
@@ -156,7 +169,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (hitVFX != null && headTransform != null)
         {
-            if(maxHealth > 100)
+            if (maxHealth > 100)
             {
                 Instantiate(Pow, headTransform.position + new Vector3(0, 4f, 2.5f), Quaternion.identity);
             }
@@ -165,7 +178,6 @@ public class EnemyHealth : MonoBehaviour
                 Instantiate(hitVFX, headTransform.position, Quaternion.identity);
                 Instantiate(Pow, headTransform.position + new Vector3(0, 1.5f, 1f), Quaternion.identity);
             }
-         
         }
     }
 }

@@ -14,18 +14,31 @@ public class ExplosiveEnemy : EnemyHealth
     [SerializeField]
     private SkinnedMeshRenderer bomberRenderer;
 
+    private bool hasExploded = false; // Flag to ensure Explode is called only once
+
     protected override void Die()
     {
-        base.Die();
+     
+    
+
+        base.Die(); // Call base class Die method for general death behavior
+
         bomberRenderer.enabled = false;
-        Explode();   // Add custom explosion behavior
+        Explode(); // Add custom explosion behavior
     }
 
-
+    public void suicideAttack()
+    {
+        if (!hasExploded)  // Check if it has already exploded
+        {
+            Die();
+        }
+    }
 
     private void Explode()
     {
-     
+        if (hasExploded) return; // Ensure Explode is called only once
+        hasExploded = true;
 
         // Show explosion effect
         if (explosionEffect != null)
@@ -51,13 +64,10 @@ public class ExplosiveEnemy : EnemyHealth
                 EnemyHealth enemy = hit.GetComponent<EnemyHealth>();
                 if (enemy != null && enemy != this)  // Avoid damaging itself
                 {
-                    Debug.Log("deal damage");
+                    Debug.Log("Deal damage to enemy.");
                     enemy.TakeDamage(explosionDamage);
                 }
             }
         }
-
-        // Destroy the enemy after explosion
-      
     }
 }

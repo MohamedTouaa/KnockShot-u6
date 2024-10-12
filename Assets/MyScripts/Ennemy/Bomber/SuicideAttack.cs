@@ -8,6 +8,8 @@ public class SuicideAttack : EnemyAttack
     [SerializeField] private float explosionDamage = 50f;    // Damage dealt by the explosion
     [SerializeField] private GameObject explosionEffect;
 
+    [SerializeField]
+    private ExplosiveEnemy explosiveEnemy;
 
     [SerializeField]
     private SkinnedMeshRenderer bomberRenderer;// Prefab for the explosion visual effect
@@ -42,39 +44,9 @@ public class SuicideAttack : EnemyAttack
     {
         Debug.Log("Suicide Enemy exploded!");
 
-        
-        if (explosionEffect != null)
-        {
-            SoundManager.PlaySound(SoundType.Explosion, null, 1);
-            bomberRenderer.enabled = false;
-            Instantiate(explosionEffect, transform.position +Vector3.up, Quaternion.identity);
-        }
+        explosiveEnemy.suicideAttack();
 
-        // Apply AOE damage to nearby entities (including enemies)
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider hit in hitColliders)
-        {
-            if (hit.CompareTag("Player"))
-            {
-                // Deal damage to the player
-                Player player = hit.GetComponent<Player>();
-                if (player != null)
-                {
-                    player.Die();
-                }
-            }
-            else if (hit.CompareTag("Enemy"))
-            {
-                // Deal damage to other enemies
-                EnemyHealth enemyHealth = hit.GetComponent<EnemyHealth>();
-                if (enemyHealth != null && enemyHealth != this)
-                {
-                    enemyHealth.TakeDamage(explosionDamage);
-                }
-            }
-        }
-
-        // Destroy this enemy after the explosion
+       
         
     }
 }
