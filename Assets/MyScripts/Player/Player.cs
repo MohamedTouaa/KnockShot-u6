@@ -1,5 +1,7 @@
 using SmallHedge.SoundManager;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -17,7 +19,14 @@ public class Player : MonoBehaviour
 
     private Vignette vignette;  
     private float deathVignetteTargetIntensity = 0.5f; 
-    private float vignetteLerpDuration = 1f; 
+    private float vignetteLerpDuration = 1f;
+
+    [SerializeField]
+    private List<GameObject> desactivateUI;
+    [SerializeField]
+    private TextMeshProUGUI ScoreText;
+
+    private GameManager gameManager;
 
     private void Awake()
     {
@@ -33,7 +42,10 @@ public class Player : MonoBehaviour
             Debug.LogError("Vignette effect not found in Volume profile.");
         }
     }
-
+    private void Start()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  
+    }
     public void Die()
     {
         StartCoroutine(Death());
@@ -44,7 +56,10 @@ public class Player : MonoBehaviour
     {
         SoundManager.PlaySound(SoundType.Damage, null, 1);
         firstPersonController.enabled = false;
-
+        ScoreText.text = gameManager.score.ToString();  
+        foreach (GameObject gameObject in desactivateUI) { 
+        gameObject.SetActive(false);    
+        }
        
         
 

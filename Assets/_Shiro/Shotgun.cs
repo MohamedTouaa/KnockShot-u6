@@ -1,6 +1,8 @@
 using SmallHedge.SoundManager;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class Shotgun : MonoBehaviour
 {
@@ -26,6 +28,13 @@ public class Shotgun : MonoBehaviour
     private Animator animator;
     private Camera cam;
 
+    [Header("Post-Processing")]
+    [SerializeField] private Volume globalVolume;
+    [SerializeField] private float chromaticAberrationIntensity = 1f; // Intensity for chromatic aberration effect
+    [SerializeField] private float chromaticLerpDuration = 0.5f;
+
+    private ChromaticAberration chromaticAberration;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -34,7 +43,14 @@ public class Shotgun : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-
+        if (globalVolume.profile.TryGet(out chromaticAberration))
+        {
+            Debug.Log("Vignette effect found.");
+        }
+        else
+        {
+            Debug.LogError("Vignette effect not found in Volume profile.");
+        }
     }
 
     private void Update()
@@ -172,6 +188,10 @@ public class Shotgun : MonoBehaviour
         SoundManager.PlaySound(SoundType.SuperPower, null, 1f);
         powerUpEndTime = Time.time + powerUpDuration; // Set the time when the power-up will wear off
         VFX.SetActive(true);
+
+        StartCoroutine(TriggerChromaticAberration());
+
+
         Debug.Log("One-shot power-up activated! It will last for " + powerUpDuration + " seconds.");
     }
 
@@ -181,5 +201,39 @@ public class Shotgun : MonoBehaviour
         isOneShotActive = false;
         VFX.SetActive(false);
         Debug.Log("One-shot power-up deactivated.");
+    }
+
+    private IEnumerator TriggerChromaticAberration()
+    {
+        float elapsedTime = 0f;
+        float initialIntensity = chromaticAberration.intensity.value;
+
+        // Fade in chromatic aberration
+        while (elapsedTime < chromaticLerpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            chromaticAberration.intensity.Override(Mathf.Lerp(initialIntensity, chromaticAberrationIntensity, elapsedTime / chromaticLerpDuration));
+            yield return null;
+        }
+
+        // Fade out after short delay
+        yield return new WaitForSeconds(0.2f);
+
+        elapsedTime = 0f;
+        while (elapsedTime < chromaticLerpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            chromaticAberration.intensity.Override(Mathf.Lerp(chromaticAberrationIntensity, initialIntensity, elapsedTime / chromaticLerpDuration));
+            yield return null;
+        }
+    }
+
+    private IEnumerator TriggerChromaticAberrationForPowerUp()
+    {
+        chromaticAberration.intensity.Override(chromaticAberrationIntensity);
+
+        yield return new WaitForSeconds(powerUpDuration);
+
+        chromaticAberration.intensity.Override(0f);
     }
 }

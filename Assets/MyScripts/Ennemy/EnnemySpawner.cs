@@ -153,7 +153,7 @@ public class EnemySpawner : MonoBehaviour
     public void OnPickupCollected()
     {
         isPickupCollected = true;
-        waveText.text = "WAVE" + (currentWave+1) + "START";
+        waveText.text = "WAVE" + (currentWave+1) + " START";
         waveText.gameObject.GetComponent<Animator>().SetTrigger("Wave");
         SoundManager.PlaySound(SoundType.NewWave, null, 1f);
     }
