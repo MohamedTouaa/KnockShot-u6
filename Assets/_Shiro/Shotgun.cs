@@ -9,7 +9,8 @@ public class Shotgun : MonoBehaviour
     [SerializeField] private GameObject muzzle;
     [SerializeField] private GameObject muzzleTarget;
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private float knockbackForce = 5f;
+    [SerializeField] private float knockbackForce = 5f; // Player knockback force
+    [SerializeField] private float enemyKnockbackForce = 10f; // Enemy knockback force
     [SerializeField] private float cooldownTime = 1f;
     [SerializeField] private float damageAmount = 20f; // Normal damage
     [SerializeField] private LayerMask ignoreLayer;
@@ -33,6 +34,9 @@ public class Shotgun : MonoBehaviour
     [SerializeField] private float grenadeSpeed = 10f;
     public bool isGrenadeLauncherActive = false; // This will lock the grenade launcher until the power-up is active
     private float nextGrenadeFireTime = 0f;
+
+    [Header("Enemy Knockback")]
+    [SerializeField] private bool applyKnockbackToEnemies = true; // Toggle for enemy knockback
 
     private void Awake()
     {
@@ -100,6 +104,17 @@ public class Shotgun : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     enemyHealth.TakeDamage(currentDamage);
+
+                    // Apply knockback to the enemy if the boolean is set
+                    if (applyKnockbackToEnemies)
+                    {
+                        Rigidbody enemyRb = hit.collider.GetComponent<Rigidbody>();
+                        if (enemyRb != null)
+                        {
+                            Vector3 knockbackDirection = (hit.transform.position - cam.transform.position).normalized; // Get knockback direction
+                            enemyRb.AddForce(knockbackDirection * enemyKnockbackForce, ForceMode.Impulse); // Use enemy knockback force
+                        }
+                    }
                 }
             }
             else

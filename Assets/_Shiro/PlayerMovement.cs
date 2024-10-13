@@ -198,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Smoothly transition between the current FOV and the target FOV
         currentFOV = Mathf.Lerp(currentFOV, targetFOV, Time.deltaTime * fovIncreaseSpeed);
-
+        
         // Apply the calculated FOV
         playerCamera.fieldOfView = currentFOV;
     }
