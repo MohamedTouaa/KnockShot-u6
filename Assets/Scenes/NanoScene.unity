@@ -1175,6 +1175,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: alolo
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 853f8a4a981b05a489a477c6a4985a38,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 3492869849075057299, guid: 853f8a4a981b05a489a477c6a4985a38,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1205,10 +1210,30 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1.9677
       objectReference: {fileID: 0}
+    - target: {fileID: 5394764080689715740, guid: 853f8a4a981b05a489a477c6a4985a38,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5990365960329906523, guid: 853f8a4a981b05a489a477c6a4985a38,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 7947746994160586723, guid: 853f8a4a981b05a489a477c6a4985a38,
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718896285228283619, guid: 853f8a4a981b05a489a477c6a4985a38,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 9061607366149347599, guid: 853f8a4a981b05a489a477c6a4985a38,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1421,7 +1446,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &1589025786
 Transform:
@@ -1735,17 +1760,17 @@ PrefabInstance:
     - target: {fileID: 6416078452133423824, guid: 9e483d103fc04a44f81375a9bc6d8824,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 74.61
+      value: 94.35638
       objectReference: {fileID: 0}
     - target: {fileID: 6416078452133423824, guid: 9e483d103fc04a44f81375a9bc6d8824,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 53.699684
+      value: 67.91191
       objectReference: {fileID: 0}
     - target: {fileID: 6416078452133423824, guid: 9e483d103fc04a44f81375a9bc6d8824,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 157.25734
+      value: 198.87724
       objectReference: {fileID: 0}
     - target: {fileID: 6416078452133423824, guid: 9e483d103fc04a44f81375a9bc6d8824,
         type: 3}
@@ -1823,7 +1848,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 127
   m_IsActive: 1
 --- !u!4 &1887577198
 Transform:
@@ -2246,6 +2271,11 @@ PrefabInstance:
         type: 3}
       propertyPath: powerUpDuration
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416447216420294947, guid: af7f45761da87b844a514a334b1555f7,
+        type: 3}
+      propertyPath: enemyKnockbackForce
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3416447216420294947, guid: af7f45761da87b844a514a334b1555f7,
         type: 3}
