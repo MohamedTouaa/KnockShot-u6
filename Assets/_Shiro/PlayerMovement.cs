@@ -7,9 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
-
     public float groundDrag;
-
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
@@ -37,16 +35,28 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
 
-    [Header("HeadBop")]
+    [Header("HeadBob")]
     public bool enableHeadBob = true;
     public Transform joint;
     public float bobSpeed = 10f;
     public Vector3 bobAmount = new Vector3(.15f, .05f, 0f);
 
+    // FOV Settings
+    [Header("FOV Settings")]
+    public Camera playerCamera;
+    public float baseFOV = 60f;
+    public float maxFOV = 80f;
+    public float fovIncreaseSpeed = 10f;
+
+    // Speedlines effect
+    [Header("Speedlines Effect")]
+    public GameObject speedlinesEffect;
+    public float speedThreshold = 10f; // Speed above which the effect is enabled
+
     // Internal Variables
     private Vector3 jointOriginalPos;
     private float timer = 0;
-
+    private float currentFOV;
 
     private void Start()
     {
@@ -55,6 +65,15 @@ public class PlayerMovement : MonoBehaviour
 
         readyToJump = true;
         jointOriginalPos = joint.localPosition; // Store the original position of the head joint
+
+        currentFOV = baseFOV;
+        playerCamera.fieldOfView = baseFOV; // Set initial FOV
+
+        // Ensure speedlines are disabled initially
+        if (speedlinesEffect != null)
+        {
+            speedlinesEffect.SetActive(false);
+        }
     }
 
     private void Update()
@@ -75,11 +94,15 @@ public class PlayerMovement : MonoBehaviour
         {
             HeadBob();
         }
+
+        AdjustFOVBasedOnSpeed(); // Adjust FOV based on player's speed
+        ManageSpeedlinesEffect(); // Enable/disable speedlines based on speed
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+
         #region IsWalking Check
         if (rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0 && grounded) // Use 'velocity' instead of 'linearVelocity'
         {
@@ -163,6 +186,42 @@ public class PlayerMovement : MonoBehaviour
                 Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed),
                 Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed),
                 Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
+        }
+    }
+
+    private void AdjustFOVBasedOnSpeed()
+    {
+        float speed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude; // Get the current speed
+
+        // Map the speed to an FOV value between baseFOV and maxFOV
+        float targetFOV = Mathf.Lerp(baseFOV, maxFOV, speed / moveSpeed);
+
+        // Smoothly transition between the current FOV and the target FOV
+        currentFOV = Mathf.Lerp(currentFOV, targetFOV, Time.deltaTime * fovIncreaseSpeed);
+
+        // Apply the calculated FOV
+        playerCamera.fieldOfView = currentFOV;
+    }
+
+    private void ManageSpeedlinesEffect()
+    {
+        // Calculate the flat speed
+        float speed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude;
+
+        // Enable or disable the speedlines effect based on speed
+        if (speed > speedThreshold)
+        {
+            if (speedlinesEffect != null && !speedlinesEffect.activeInHierarchy)
+            {
+                speedlinesEffect.SetActive(true); // Enable speedlines effect
+            }
+        }
+        else
+        {
+            if (speedlinesEffect != null && speedlinesEffect.activeInHierarchy)
+            {
+                speedlinesEffect.SetActive(false); // Disable speedlines effect
+            }
         }
     }
 }

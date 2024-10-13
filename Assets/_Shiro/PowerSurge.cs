@@ -15,6 +15,7 @@ public class KillProgressBar : MonoBehaviour
     // Reference to the Shotgun script to activate the one-shot power-up
     [SerializeField] private Shotgun shotgun;
     [SerializeField] private TextMeshProUGUI surgeText;
+
     // This function should be called each time you kill an enemy
     public void AddKill()
     {
@@ -33,24 +34,27 @@ public class KillProgressBar : MonoBehaviour
         }
     }
 
-    
-    
-
     private IEnumerator ActivatePowerUp()
     {
         powerUpActive = true;
 
-        // Keep the bar full during the power-up
+        // Keep the bar full at the start of the power-up
         progressBar.fillAmount = 1f;
 
         // Activate the one-shot power-up in the Shotgun script
         shotgun.ActivateOneShotPowerUp();
-        
 
-        // Wait for the power-up duration
-        yield return new WaitForSeconds(powerUpDuration);
+        // Gradually decrease the fill amount over the power-up duration
+        float elapsedTime = 0f;
 
-        // Reset the progress bar and allow new kills to be counted
+        while (elapsedTime < powerUpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            progressBar.fillAmount = Mathf.Lerp(1f, 0f, elapsedTime / powerUpDuration);  // Lerp from 1 to 0 over powerUpDuration
+            yield return null;
+        }
+
+        // After the power-up duration, reset the progress bar
         ResetProgressBar();
     }
 

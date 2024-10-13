@@ -17,7 +17,7 @@ public class Shotgun : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPosition;
     [SerializeField] private float BulletSpeed = 100f;
 
-    [SerializeField] private float oneShotDamage = 100f; // Damage value when the power-up is active
+    [SerializeField] private float oneShotDamage = 300f; // Damage value when the power-up is active
     [SerializeField] private float powerUpDuration = 5f; // Duration of the one-shot power-up
 
     private bool isOneShotActive = false;
@@ -25,6 +25,14 @@ public class Shotgun : MonoBehaviour
     private float powerUpEndTime = 0f; // Tracks when the power-up should wear off
     private Animator animator;
     private Camera cam;
+
+    // Grenade launcher fields
+    [Header("Grenade Launcher")]
+    [SerializeField] private GameObject grenadePrefab;
+    [SerializeField] private float grenadeCooldownTime = 2f;
+    [SerializeField] private float grenadeSpeed = 10f;
+    public bool isGrenadeLauncherActive = false; // This will lock the grenade launcher until the power-up is active
+    private float nextGrenadeFireTime = 0f;
 
     private void Awake()
     {
@@ -34,16 +42,23 @@ public class Shotgun : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-
     }
 
     private void Update()
     {
+        // Regular shotgun fire
         if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
         {
             animator.SetTrigger("Shoot");
             Shoot();
             nextFireTime = Time.time + cooldownTime;
+        }
+
+        // Grenade launcher fire, only available if the power-up is active
+        if (Input.GetButtonDown("Fire2") && isGrenadeLauncherActive && Time.time >= nextGrenadeFireTime)
+        {
+            FireGrenade();
+            nextGrenadeFireTime = Time.time + grenadeCooldownTime;
         }
 
         // Check if the power-up duration has ended
@@ -104,6 +119,17 @@ public class Shotgun : MonoBehaviour
         ApplyKnockback();
     }
 
+    private void FireGrenade()
+    {
+        GameObject grenade = Instantiate(grenadePrefab, bulletSpawnPosition.position, Quaternion.identity);
+        Rigidbody grenadeRb = grenade.GetComponent<Rigidbody>();
+
+        Vector3 launchDirection = cam.transform.forward;
+        grenadeRb.AddForce(launchDirection * grenadeSpeed, ForceMode.Impulse);
+
+        SoundManager.PlaySound(SoundType.Gun, null, 0.5f); // Play sound for grenade launch
+    }
+
     private IEnumerator SpawnTrail(TrailRenderer trail, Vector3 endPosition)
     {
         Vector3 startPosition = trail.transform.position;
@@ -121,8 +147,7 @@ public class Shotgun : MonoBehaviour
         Destroy(trail.gameObject, trail.time); // Destroy after trail fades
     }
 
-    [Header("Recoil")]  
-
+    [Header("Recoil")]
     public PlayerMovement playerMovement;
     public float liftForce = 5f;
     private bool canApplyLift = true;
@@ -144,37 +169,25 @@ public class Shotgun : MonoBehaviour
             float heightAdjustment = Mathf.Clamp(maxHeight - playerRigidbody.position.y, 0, liftForce);
             playerRigidbody.AddForce(Vector3.up * heightAdjustment, ForceMode.Impulse);
         }
-
-        // Additional grounded check and lift with cooldown if needed
-        // if (playerMovement.grounded && canApplyLift)
-        // {
-        //     playerRigidbody.AddForce(Vector3.up * liftForce, ForceMode.Impulse);
-        //     canApplyLift = false;
-        //     StartCoroutine(ResetLift());
-        // }
     }
 
     private IEnumerator ResetLift()
     {
-        yield return new WaitForSeconds(liftCooldown); 
-        canApplyLift = true; 
+        yield return new WaitForSeconds(liftCooldown);
+        canApplyLift = true;
     }
-
-
 
     [Header("PowerUp")]
     [SerializeField] private GameObject VFX;
-    
+
     public void ActivateOneShotPowerUp()
     {
-        
         isOneShotActive = true;
         powerUpEndTime = Time.time + powerUpDuration; // Set the time when the power-up will wear off
         VFX.SetActive(true);
         Debug.Log("One-shot power-up activated! It will last for " + powerUpDuration + " seconds.");
     }
 
-    // Deactivate the one-shot power-up
     private void DeactivateOneShotPowerUp()
     {
         isOneShotActive = false;
