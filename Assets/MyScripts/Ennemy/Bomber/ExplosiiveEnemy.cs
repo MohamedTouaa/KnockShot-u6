@@ -14,22 +14,22 @@ public class ExplosiveEnemy : EnemyHealth
     [SerializeField]
     private SkinnedMeshRenderer bomberRenderer;
 
-    private bool hasExploded = false; // Flag to ensure Explode is called only once
+    private bool hasExploded = false; 
 
     protected override void Die()
     {
      
     
 
-        base.Die(); // Call base class Die method for general death behavior
+        base.Die(); 
 
         bomberRenderer.enabled = false;
-        Explode(); // Add custom explosion behavior
+        Explode(); 
     }
 
     public void suicideAttack()
     {
-        if (!hasExploded)  // Check if it has already exploded
+        if (!hasExploded)  
         {
             Die();
         }
@@ -37,17 +37,17 @@ public class ExplosiveEnemy : EnemyHealth
 
     private void Explode()
     {
-        if (hasExploded) return; // Ensure Explode is called only once
+        if (hasExploded) return; 
         hasExploded = true;
 
-        // Show explosion effect
+     
         if (explosionEffect != null)
         {
             Instantiate(explosionEffect, transform.position + Vector3.up, Quaternion.identity);
             SoundManager.PlaySound(SoundType.Explosion, null, 0.5f);
         }
 
-        // Deal AOE damage to nearby objects
+      
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider hit in hitColliders)
         {
@@ -62,7 +62,7 @@ public class ExplosiveEnemy : EnemyHealth
             else if (hit.CompareTag("Enemy"))
             {
                 EnemyHealth enemy = hit.GetComponent<EnemyHealth>();
-                if (enemy != null && enemy != this)  // Avoid damaging itself
+                if (enemy != null && enemy != this)  
                 {
                     Debug.Log("Deal damage to enemy.");
                     enemy.TakeDamage(explosionDamage);

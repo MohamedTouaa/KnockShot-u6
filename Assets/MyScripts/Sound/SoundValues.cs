@@ -13,5 +13,8 @@ namespace SmallHedge.SoundManager
         Explosion,
         Rock,
         Boing,
+        SuperPower,
+        PowerUp,
+        NewWave,
     }
 }

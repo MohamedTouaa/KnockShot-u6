@@ -1,6 +1,8 @@
+using SmallHedge.SoundManager;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,6 +30,11 @@ public class EnemySpawner : MonoBehaviour
     public GameObject pickupObjectPrefab; // Reference to the pickup object prefab
     private bool isPickupCollected = false; // Flag to check if the object was collected
     public Transform pickupSpawnPosition;
+
+    [SerializeField]
+    private TextMeshProUGUI waveText;
+
+    
 
     private void Awake()
     {
@@ -57,34 +64,36 @@ public class EnemySpawner : MonoBehaviour
 
             // Define the number of each enemy type per wave.
             int zombiesToSpawn = Mathf.Max(baseEnemiesPerWave - (currentWave - 1) * 2, 0); // More zombies in higher waves.
-            int bombersToSpawn = Mathf.Max((currentWave - 1) * 2  , 0); // Introduce bombers in wave 2+.
+            int bombersToSpawn = Mathf.Max((currentWave - 1) * 2, 0); // Introduce bombers in wave 2+.
             int golemsToSpawn = Mathf.Max((currentWave - 2) * 2, 0); // Introduce golems in wave 3+.
 
             totalEnemiesInWave = zombiesToSpawn + bombersToSpawn + golemsToSpawn;
-            int spawnedEnemies = 0;
 
-            // Spawn zombies
+            // Create a list of enemy types to spawn
+            List<int> enemyTypesToSpawn = new List<int>();
+
+            // Add the specified number of each enemy type to the list
             for (int i = 0; i < zombiesToSpawn; i++)
             {
-                SpawnEnemyAtChosenPosition(0); // Zombie is at index 0 in EnemyPrefabs
-                spawnedEnemies++;
-                yield return spawnWait ;
+                enemyTypesToSpawn.Add(0); // 0 for Zombie
             }
-
-            // Spawn bombers
             for (int i = 0; i < bombersToSpawn; i++)
             {
-                SpawnEnemyAtChosenPosition(1); // Bomber is at index 1
-                spawnedEnemies++;
-                yield return spawnWait;
+                enemyTypesToSpawn.Add(1); // 1 for Bomber
             }
-
-            // Spawn golems
             for (int i = 0; i < golemsToSpawn; i++)
             {
-                SpawnEnemyAtChosenPosition(2); // Golem is at index 2
-                spawnedEnemies++;
-                yield return spawnWait;
+                enemyTypesToSpawn.Add(2); // 2 for Golem
+            }
+
+            // Shuffle the enemy types list
+            ShuffleList(enemyTypesToSpawn);
+
+            // Spawn enemies in random order
+            foreach (int enemyIndex in enemyTypesToSpawn)
+            {
+                SpawnEnemyAtChosenPosition(enemyIndex);
+                yield return new WaitForSeconds(Random.Range(spawnWait,spawnWait +1f)); // Delay before spawning the next enemy
             }
 
             // Wait until all enemies are killed before starting the next wave.
@@ -102,6 +111,20 @@ public class EnemySpawner : MonoBehaviour
             isPickupCollected = false;
         }
     }
+
+    // Method to shuffle a list
+    private void ShuffleList<T>(List<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            int k = Random.Range(0, n--);
+            T temp = list[n];
+            list[n] = list[k];
+            list[k] = temp;
+        }
+    }
+
 
     private void SpawnPickupObject()
     {
@@ -130,6 +153,9 @@ public class EnemySpawner : MonoBehaviour
     public void OnPickupCollected()
     {
         isPickupCollected = true;
+        waveText.text = "WAVE" + (currentWave+1) + " START";
+        waveText.gameObject.GetComponent<Animator>().SetTrigger("Wave");
+        SoundManager.PlaySound(SoundType.NewWave, null, 1f);
     }
     private IEnumerator ChanegTarget()
     {
