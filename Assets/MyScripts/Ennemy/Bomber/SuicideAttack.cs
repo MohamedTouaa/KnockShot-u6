@@ -38,7 +38,14 @@ public class SuicideAttack : EnemyAttack
 
         isAttacking = false;
     }
-
+    protected override void OnTriggerExit(Collider other)
+    {
+      
+        if (other.CompareTag("Player"))
+        {
+            explosiveEnemy.suicideAttack();
+        }
+    }
     // Method to trigger the explosion when the enemy suicides
     private void TriggerExplosion()
     {

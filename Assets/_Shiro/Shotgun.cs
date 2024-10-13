@@ -169,6 +169,7 @@ public class Shotgun : MonoBehaviour
     {
         
         isOneShotActive = true;
+        SoundManager.PlaySound(SoundType.SuperPower, null, 1f);
         powerUpEndTime = Time.time + powerUpDuration; // Set the time when the power-up will wear off
         VFX.SetActive(true);
         Debug.Log("One-shot power-up activated! It will last for " + powerUpDuration + " seconds.");

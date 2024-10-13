@@ -141,26 +141,22 @@ public class EnemyHealth : MonoBehaviour
 
         if (maxHealth > 100)
         {
-            scoreadd = Random.Range(20, 45);
+            scoreadd = Random.Range(40, 75);
             score.text = "+" + scoreadd;
             score.gameObject.GetComponent<Animator>().SetTrigger("Score2");
             manager.updateScore(scoreadd);
         }
         else
         {
-            scoreadd = Random.Range(10, 25);
+            scoreadd = Random.Range(25, 50);
             score.text = "+" + scoreadd;
             score.gameObject.GetComponent<Animator>().SetTrigger("Score");
             manager.updateScore(scoreadd);
         }
 
-        // Wait for the death animation to finish before disabling
+        
         yield return new WaitForSeconds(1f);
-
-        // Increase the kill counter in the spawner
-        spawner.killChaser++;
-
-        // Disable the enemy
+        spawner.killChaser++;   
         this.gameObject.GetComponent<Ennemy>().OnDisable();
     }
 

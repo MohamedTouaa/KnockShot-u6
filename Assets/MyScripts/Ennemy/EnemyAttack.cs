@@ -30,7 +30,7 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         // Stop attacking if the player leaves the attack radius
         if (other.CompareTag("Player"))
