@@ -9,6 +9,12 @@ public class PickupObject : MonoBehaviour
         Multiplier,
         Grenade
     }
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
 
     public PowerUpType powerUp;
 
@@ -38,7 +44,7 @@ public class PickupObject : MonoBehaviour
     private void ActivatePowerUp(PowerUpType powerUpType)
     {
         Shotgun shotgun = FindObjectOfType<Shotgun>();
-        EnemyHealth enemyHealth = FindObjectOfType<EnemyHealth>();
+     
 
         switch (powerUpType)
         {
@@ -47,7 +53,7 @@ public class PickupObject : MonoBehaviour
                 break;
 
             case PowerUpType.Multiplier:
-                if (enemyHealth != null) enemyHealth.Multiplier = true;
+                if (gameManager != null) gameManager.isDoubleScore = true;
                 break;
 
             case PowerUpType.Grenade:
@@ -67,7 +73,7 @@ public class PickupObject : MonoBehaviour
             shotgun.isGrenadeLauncherActive = false;
         }
 
-        if (enemyHealth != null) enemyHealth.Multiplier = false;
+        if (gameManager != null) gameManager.isDoubleScore =false;
 
         // Hide the power-up icon through the UI manager
         PowerUpUIManager uiManager = FindObjectOfType<PowerUpUIManager>();

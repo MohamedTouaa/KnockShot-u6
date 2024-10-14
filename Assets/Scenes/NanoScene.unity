@@ -2844,7 +2844,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: af7f45761da87b844a514a334b1555f7, type: 3}
 --- !u!4 &2006923746 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2251997143378143924, guid: af7f45761da87b844a514a334b1555f7,
+  m_CorrespondingSourceObject: {fileID: 540603621711512534, guid: af7f45761da87b844a514a334b1555f7,
     type: 3}
   m_PrefabInstance: {fileID: 2006923745}
   m_PrefabAsset: {fileID: 0}
@@ -2955,6 +2955,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ScoreCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167471201485899354, guid: f118be8bf09f4b8419d6e8c5ef1fc080,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2371181819424808208, guid: f118be8bf09f4b8419d6e8c5ef1fc080,
         type: 3}
