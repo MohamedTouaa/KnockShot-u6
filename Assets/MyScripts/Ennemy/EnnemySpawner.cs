@@ -1,10 +1,10 @@
 using SmallHedge.SoundManager;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.HighDefinition;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     public List<Transform> SpawnPositions = new List<Transform>();
     public SpawnMethod EnemySpawnMethod = SpawnMethod.RoundRobin;
 
-    public int killChaser=0;
+    public int killChaser = 0;
     public int baseEnemiesPerWave = 5; // Base number of enemies per wave
     public int currentWave = 1; // Tracks the current wave number
     public int totalEnemiesInWave = 0;
@@ -27,14 +27,12 @@ public class EnemySpawner : MonoBehaviour
     private NavMeshTriangulation Triangulation;
     private Dictionary<int, ObjectPool> EnemyObjectPools = new Dictionary<int, ObjectPool>();
 
-    public GameObject pickupObjectPrefab; // Reference to the pickup object prefab
+    public List<GameObject> pickupPrefabs = new List<GameObject>(); // List of different pickup object prefabs
     private bool isPickupCollected = false; // Flag to check if the object was collected
     public Transform pickupSpawnPosition;
 
     [SerializeField]
     private TextMeshProUGUI waveText;
-
-    
 
     private void Awake()
     {
@@ -48,12 +46,8 @@ public class EnemySpawner : MonoBehaviour
     {
         Triangulation = NavMesh.CalculateTriangulation();
 
-
         StartCoroutine(ChanegTarget());
         StartCoroutine(SpawnEnemiesWave());
-
-
-       
     }
 
     private IEnumerator SpawnEnemiesWave()
@@ -93,15 +87,16 @@ public class EnemySpawner : MonoBehaviour
             foreach (int enemyIndex in enemyTypesToSpawn)
             {
                 SpawnEnemyAtChosenPosition(enemyIndex);
-                yield return new WaitForSeconds(Random.Range(spawnWait,spawnWait +1f)); // Delay before spawning the next enemy
+                yield return new WaitForSeconds(Random.Range(spawnWait, spawnWait + 1f)); // Delay before spawning the next enemy
             }
 
             // Wait until all enemies are killed before starting the next wave.
             yield return new WaitUntil(() => AreAllEnemiesInPool(totalEnemiesInWave, killChaser));
 
             Debug.Log($"Wave {currentWave} finished. All enemies defeated.");
-
-            SpawnPickupObject();
+           
+            SpawnRandomPickupObject();
+            FindObjectOfType<PickupObject>().DeactivateAllPowerUps();
 
             // Wait until the player collects the pickup object to proceed to the next wave
             yield return new WaitUntil(() => isPickupCollected);
@@ -125,23 +120,24 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-
-    private void SpawnPickupObject()
+    private void SpawnRandomPickupObject()
     {
-        if (pickupObjectPrefab != null && pickupSpawnPosition != null)
+        if (pickupPrefabs.Count == 0 || pickupSpawnPosition == null)
         {
-            Instantiate(pickupObjectPrefab, pickupSpawnPosition.position, Quaternion.identity);
-            Debug.Log("Pickup object spawned.");
+            Debug.LogError("No pickup objects or spawn position defined.");
+            return;
         }
-        else
-        {
-            Debug.LogError("Pickup object or spawn position not set.");
-        }
+
+        // Pick a random pickup object from the list
+        GameObject randomPickup = pickupPrefabs[Random.Range(0, pickupPrefabs.Count)];
+
+        Instantiate(randomPickup, pickupSpawnPosition.position, Quaternion.identity);
+        Debug.Log("Random pickup object spawned.");
     }
 
-    private bool AreAllEnemiesInPool(int orginal, int remaining)
+    private bool AreAllEnemiesInPool(int original, int remaining)
     {
-        if (remaining == orginal)
+        if (remaining == original)
         {
             killChaser = 0;
             return true;
@@ -149,14 +145,16 @@ public class EnemySpawner : MonoBehaviour
         else return false;
     }
 
-
     public void OnPickupCollected()
     {
+        Debug.Log("Pickup Collected!");
         isPickupCollected = true;
-        waveText.text = "WAVE" + (currentWave+1) + " START";
-        waveText.gameObject.GetComponent<Animator>().SetTrigger("Wave");
+        //waveText.text = "WAVE " + (currentWave + 1) + " START";
+        //waveText.gameObject.GetComponent<Animator>().SetTrigger("Wave");
         SoundManager.PlaySound(SoundType.NewWave, null, 1f);
     }
+
+
     private IEnumerator ChanegTarget()
     {
         while (true)
@@ -165,19 +163,6 @@ public class EnemySpawner : MonoBehaviour
 
             yield return new WaitForSeconds(0.9f);
         }
-          
-      
-    }
-    private void SpawnRoundRobinEnemy(int SpawnedEnemies)
-    {
-        int SpawnIndex = SpawnedEnemies % EnemyPrefabs.Count;
-
-        DoSpawnEnemy(SpawnIndex);
-    }
-
-    private void SpawnRandomEnemy()
-    {
-        DoSpawnEnemy(Random.Range(0, EnemyPrefabs.Count));
     }
 
     private void SpawnEnemyAtChosenPosition(int enemyIndex)
@@ -227,46 +212,11 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-
-
-    private void DoSpawnEnemy(int SpawnIndex)
-    {
-        PoolableObject poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
-
-        if (poolableObject != null)
-        {
-            Ennemy enemy = poolableObject.GetComponent<Ennemy>();
-
-            int VertexIndex = Random.Range(0, Triangulation.vertices.Length);
-
-            NavMeshHit Hit;
-            if (NavMesh.SamplePosition(Triangulation.vertices[VertexIndex], out Hit, 2f, -1))
-            {
-                enemy.meshAgent.Warp(Hit.position);
-                // enemy needs to get enabled and start chasing now.
-                enemy.ennemyMovement.targetPosition = targetPosition;
-                enemy.meshAgent.enabled = true;
-                enemy.ennemyMovement.StartChasing();
-            }
-            else
-            {
-                Debug.LogError($"Unable to place NavMeshAgent on NavMesh. Tried to use {Triangulation.vertices[VertexIndex]}");
-            }
-        }
-        else
-        {
-            Debug.LogError($"Unable to fetch enemy of type {SpawnIndex} from object pool. Out of objects?");
-        }
-    }
-
-   
-
     public enum SpawnMethod
     {
         RoundRobin,
         Random,
         SpawnAtPosition,
         Wave,
-       
     }
 }

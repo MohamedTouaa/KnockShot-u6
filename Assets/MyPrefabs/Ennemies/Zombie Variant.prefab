@@ -499,6 +499,11 @@ PrefabInstance:
       objectReference: {fileID: 5057379174455360831}
     - target: {fileID: 8751963667046410486, guid: 290a5d4e5b2e96a4a82514658e57caa0,
         type: 3}
+      propertyPath: Multiplier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751963667046410486, guid: 290a5d4e5b2e96a4a82514658e57caa0,
+        type: 3}
       propertyPath: headTransform
       value: 
       objectReference: {fileID: 739711467377681047}

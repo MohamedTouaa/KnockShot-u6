@@ -39,7 +39,7 @@ public class Shotgun : MonoBehaviour
     private float nextGrenadeFireTime = 0f;
 
     [Header("Enemy Knockback")]
-    [SerializeField] private bool applyKnockbackToEnemies = true; // Toggle for enemy knockback
+    [SerializeField] public bool applyKnockbackToEnemies = false; // Toggle for enemy knockback
 
     [Header("Post-Processing")]
     [SerializeField] private Volume globalVolume;
