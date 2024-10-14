@@ -12,6 +12,7 @@ TagManager:
   - Bomber
   - ScoreText
   - SignIn
+  - KillBar
   layers:
   - Default
   - TransparentFX
