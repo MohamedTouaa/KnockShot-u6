@@ -1364,12 +1364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00798d57e68bd2e49aff6a2b0f11abfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1106384194 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 582675978009403216, guid: af7f45761da87b844a514a334b1555f7,
-    type: 3}
-  m_PrefabInstance: {fileID: 2006923745}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1176556624 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5394764080689715740, guid: 853f8a4a981b05a489a477c6a4985a38,
@@ -3145,6 +3139,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1027486672}
   m_SourcePrefab: {fileID: 100100000, guid: af7f45761da87b844a514a334b1555f7, type: 3}
+--- !u!4 &2006923746 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2251997143378143924, guid: af7f45761da87b844a514a334b1555f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 2006923745}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2006923748 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5183738075709781725, guid: af7f45761da87b844a514a334b1555f7,
@@ -3653,7 +3653,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'Playerposition.Array.data[0]'
       value: 
-      objectReference: {fileID: 1106384194}
+      objectReference: {fileID: 2006923746}
     - target: {fileID: 3067188024105528435, guid: e38f529832a762344bfe008b04de87a1,
         type: 3}
       propertyPath: 'Playerposition.Array.data[1]'
