@@ -168,17 +168,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +10
+  m_text: 10P
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c079509275f5cfe42bb6fb6a61f5c465, type: 2}
-  m_sharedMaterial: {fileID: 6814852905057769492, guid: c079509275f5cfe42bb6fb6a61f5c465,
+  m_fontAsset: {fileID: 11400000, guid: 4e4b0aa8ce73ae04691fdd97b94f42cd, type: 2}
+  m_sharedMaterial: {fileID: 5844763006565578976, guid: 4e4b0aa8ce73ae04691fdd97b94f42cd,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
+    rgba: 134217727
   m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -554,7 +554,9 @@ MonoBehaviour:
   hitVFX: {fileID: 0}
   Pow: {fileID: 0}
   headTransform: {fileID: 0}
+  killProgressBar: {fileID: 0}
   hasDied: 0
+  Multiplier: 0
   explosionRadius: 5
   explosionDamage: 100
   explosionEffect: {fileID: 6698870668525119565, guid: d79736ecc9604fb4eae78933e5158230,

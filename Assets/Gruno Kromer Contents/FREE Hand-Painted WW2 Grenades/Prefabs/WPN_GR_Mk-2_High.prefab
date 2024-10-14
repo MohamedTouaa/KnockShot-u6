@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 10
-  explosionForce: 700
+  explosionForce: 50
   damageAmount: 80
   explosionEffect: {fileID: 6698870668525119565, guid: d79736ecc9604fb4eae78933e5158230,
     type: 3}
