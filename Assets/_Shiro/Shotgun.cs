@@ -223,7 +223,10 @@ public class Shotgun : MonoBehaviour
         powerUpEndTime = Time.time + powerUpDuration; // Set the time when the power-up will wear off
         VFX.SetActive(true);
 
-        StartCoroutine(TriggerChromaticAberration());
+        if (chromaticAberration != null)
+        {
+            chromaticAberration.intensity.Override(chromaticAberrationIntensity);
+        }
 
 
         Debug.Log("One-shot power-up activated! It will last for " + powerUpDuration + " seconds.");
@@ -232,41 +235,13 @@ public class Shotgun : MonoBehaviour
     private void DeactivateOneShotPowerUp()
     {
         isOneShotActive = false;
+        if (chromaticAberration != null)
+        {
+            chromaticAberration.intensity.Override(0f);
+        }
         VFX.SetActive(false);
         Debug.Log("One-shot power-up deactivated.");
     }
 
-    private IEnumerator TriggerChromaticAberration()
-    {
-        float elapsedTime = 0f;
-        float initialIntensity = chromaticAberration.intensity.value;
-
-        // Fade in chromatic aberration
-        while (elapsedTime < chromaticLerpDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            chromaticAberration.intensity.Override(Mathf.Lerp(initialIntensity, chromaticAberrationIntensity, elapsedTime / chromaticLerpDuration));
-            yield return null;
-        }
-
-        // Fade out after short delay
-        yield return new WaitForSeconds(0.2f);
-
-        elapsedTime = 0f;
-        while (elapsedTime < chromaticLerpDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            chromaticAberration.intensity.Override(Mathf.Lerp(chromaticAberrationIntensity, initialIntensity, elapsedTime / chromaticLerpDuration));
-            yield return null;
-        }
-    }
-
-    private IEnumerator TriggerChromaticAberrationForPowerUp()
-    {
-        chromaticAberration.intensity.Override(chromaticAberrationIntensity);
-
-        yield return new WaitForSeconds(powerUpDuration);
-
-        chromaticAberration.intensity.Override(0f);
-    }
+ 
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3423013587465860384}
   - component: {fileID: 5678660606195895507}
+  - component: {fileID: 660196864298803904}
   m_Layer: 0
   m_Name: GameManager 1
   m_TagString: GameManager
@@ -44,4 +45,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f31107ae0c237c4ab844bebc7ed742b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
   scoreText: {fileID: 0}
+  leaderboard: {fileID: 660196864298803904}
+  SignIn: {fileID: 0}
+--- !u!114 &660196864298803904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5276293940082736467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defbf4b5bee24e1f886a4488b0ff7599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaderboard: {fileID: 11400000, guid: 8cb93ff4e724a5644b1f0d38e90ecd39, type: 2}
+  multiplier: 5
+  numScoresToShow: 10
+  orderBy: 0
+  scoreText:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  myScore: {fileID: 0}
