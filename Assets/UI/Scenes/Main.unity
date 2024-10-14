@@ -378,7 +378,7 @@ PrefabInstance:
         type: 3}
       propertyPath: myScore
       value: 
-      objectReference: {fileID: 807083944803397475}
+      objectReference: {fileID: 0}
     - target: {fileID: 660196864298803904, guid: 447a9d3042a6c4e4182b5fca901ce45a,
         type: 3}
       propertyPath: 'scoreText.Array.data[0]'
@@ -951,22 +951,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 101718393857175492, guid: 718637cc42f5cfa4699520434403d945, type: 3}
+    - {fileID: 5685382958826916607, guid: 718637cc42f5cfa4699520434403d945, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 718637cc42f5cfa4699520434403d945, type: 3}
---- !u!114 &807083944803397475 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8203883199788817307, guid: 718637cc42f5cfa4699520434403d945,
-    type: 3}
-  m_PrefabInstance: {fileID: 769057580952880138}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

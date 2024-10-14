@@ -35,6 +35,9 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     private Transform headTransform;
 
+    [SerializeField]
+    private KillProgressBar killProgressBar;
+
     protected EnemySpawner spawner;
     protected GameManager manager;
 
@@ -45,6 +48,7 @@ public class EnemyHealth : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemySpawner>();
         manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        killProgressBar = GameObject.FindGameObjectWithTag("KillBar").GetComponent<KillProgressBar>();  
     }
 
     private void OnEnable()
@@ -132,7 +136,7 @@ public class EnemyHealth : MonoBehaviour
 
         Debug.Log(gameObject.name + " died.");
         animator.SetTrigger(DieTrigger);
-        FindObjectOfType<KillProgressBar>().AddKill();
+        killProgressBar.AddKill();
         StartCoroutine(DieAfterAnimation());
        
     }

@@ -14,7 +14,7 @@ namespace HYPLAY.Demo
         [SerializeField, Range(0, 10)] private int numScoresToShow = 5;
         [SerializeField] private HyplayLeaderboard.OrderBy orderBy;
         [SerializeField] private TextMeshProUGUI[] scoreText;
-        [SerializeField] private TextMeshProUGUI myScore;
+        
         
         private bool _pressed = false;
         
@@ -68,14 +68,7 @@ namespace HYPLAY.Demo
             }
         }
 
-       private void Update()
-        {
-            _score += Time.deltaTime * multiplier * (_pressed ? 1 : -1);
-            if (_score < 0)
-                _score = 0;
-            else
-                myScore.text = $"current score: {_score:0.00}";
-        }
+      
 
         public void OnPointerDown(PointerEventData eventData)
         {
