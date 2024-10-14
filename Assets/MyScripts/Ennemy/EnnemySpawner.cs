@@ -34,6 +34,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI waveText;
 
+   
+
     private void Awake()
     {
         for (int i = 0; i < EnemyPrefabs.Count; i++)

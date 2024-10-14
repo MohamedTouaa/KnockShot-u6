@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public GameObject SignIn;
 
+    public bool isDouble;
+
     private void Awake()
     {
         // Check if an instance of GameManager already exists
@@ -48,11 +50,21 @@ public class GameManager : MonoBehaviour
 
     public void updateScore(int i)
     {
-       
-        scoreText.gameObject.GetComponent<Animator>().SetTrigger("Score");
-        score += i;
-        scoreText.text = score.ToString();
-        leaderboard.SetScore(score);    
+        if (!isDouble)
+        {
+            scoreText.gameObject.GetComponent<Animator>().SetTrigger("Score");
+            score += i;
+            scoreText.text = score.ToString();
+            leaderboard.SetScore(score);
+        }
+        else
+        {
+            scoreText.gameObject.GetComponent<Animator>().SetTrigger("Score");
+            score += i*2;
+            scoreText.text = score.ToString();
+            leaderboard.SetScore(score);
+        }
+          
     }
 
     public void SubmitScore()
