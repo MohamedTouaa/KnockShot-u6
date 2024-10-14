@@ -1,25 +1,72 @@
+using HYPLAY.Demo;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance; // Static instance
     public int score = 0;
     [SerializeField]
     private TextMeshProUGUI scoreText;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   
+    [SerializeField]
+    private DemoLeaderboard leaderboard;
+
+    [SerializeField]
+    public GameObject SignIn;
+
+    private void Awake()
+    {
+        // Check if an instance of GameManager already exists
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Make this object persistent across scenes
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate GameManager
+        }
+    }
+
+    public void ReactivateSignIn()
+    {
+        SignIn.SetActive(true);    
+    }
+
+
+
+    private void Update()
+    {
+        if (scoreText == null && SceneManager.GetActiveScene().buildIndex !=0)
+        {
+            scoreText = GameObject.FindGameObjectWithTag("ScoreText").GetComponent<TextMeshProUGUI>();
+        }
+    }
+
+
+
     public void updateScore(int i)
     {
+       
         scoreText.gameObject.GetComponent<Animator>().SetTrigger("Score");
         score += i;
         scoreText.text = score.ToString();
+        leaderboard.SetScore(score);    
+    }
+
+    public void SubmitScore()
+    {
+        leaderboard.SubmitScore();
     }
 
     public void RestartGame()
     {
-        // Reset game state
-        Time.timeScale = 1f; // Resume time // Reset paused state
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Reload current scene
+        Time.timeScale = 1f;
+        
+       
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        this.score = 0;
+
     }
 }

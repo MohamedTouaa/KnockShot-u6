@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
         deathScreen.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        gameManager.SubmitScore();
         Time.timeScale = 0f; 
     }
 }

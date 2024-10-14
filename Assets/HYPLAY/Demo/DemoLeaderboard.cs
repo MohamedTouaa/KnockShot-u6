@@ -19,6 +19,11 @@ namespace HYPLAY.Demo
         private bool _pressed = false;
         
         private float _score = 0;
+
+        public void SetScore(float score)
+        {
+            this._score = score; 
+        }
         
         private void Awake()
         {
@@ -63,7 +68,7 @@ namespace HYPLAY.Demo
             }
         }
 
-        private void Update()
+       private void Update()
         {
             _score += Time.deltaTime * multiplier * (_pressed ? 1 : -1);
             if (_score < 0)

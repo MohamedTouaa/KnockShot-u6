@@ -131,8 +131,9 @@ public class EnemyHealth : MonoBehaviour
 
         Debug.Log(gameObject.name + " died.");
         animator.SetTrigger(DieTrigger);
-        StartCoroutine(DieAfterAnimation());
         FindObjectOfType<KillProgressBar>().AddKill();
+        StartCoroutine(DieAfterAnimation());
+       
     }
 
     private IEnumerator DieAfterAnimation()
