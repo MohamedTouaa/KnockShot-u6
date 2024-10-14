@@ -287,7 +287,6 @@ MonoBehaviour:
   - {fileID: 6240220224077441495}
   - {fileID: 6809712750816951534}
   - {fileID: 1788589888659945223}
-  myScore: {fileID: 8203883199788817307}
 --- !u!1 &127244515270820723
 GameObject:
   m_ObjectHideFlags: 0
@@ -5737,8 +5736,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3392049016728634560}
   - {fileID: 901768197297144089}
+  - {fileID: 3392049016728634560}
   m_Father: {fileID: 5105959232030141147}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
