@@ -155,7 +155,7 @@ public class EnemyHealth : MonoBehaviour
         {
             scoreadd = Random.Range(40, 75);
             scoreadd = Mathf.RoundToInt(scoreadd * multiplier); // Apply multiplier
-            score.text = "+" + scoreadd;
+            score.text = scoreadd + "P";
             score.gameObject.GetComponent<Animator>().SetTrigger("Score2");
             manager.updateScore(scoreadd);
         }
@@ -163,7 +163,7 @@ public class EnemyHealth : MonoBehaviour
         {
             scoreadd = Random.Range(25, 50);
             scoreadd = Mathf.RoundToInt(scoreadd * multiplier); // Apply multiplier
-            score.text = "+" + scoreadd;
+            score.text = scoreadd + "P";
             score.gameObject.GetComponent<Animator>().SetTrigger("Score");
             manager.updateScore(scoreadd);
         }
