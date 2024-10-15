@@ -58,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
     private float timer = 0;
     private float currentFOV;
 
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -135,14 +136,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
+        
         // on ground
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
+        
         // in air
         else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        
     }
 
     private void SpeedControl()
