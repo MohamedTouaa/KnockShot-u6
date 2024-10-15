@@ -140,21 +140,15 @@ public class EnemyHealth : MonoBehaviour
         StartCoroutine(DieAfterAnimation());
        
     }
-    public bool Multiplier;
+ 
     private IEnumerator DieAfterAnimation()
     {
         int scoreadd;
-        float multiplier = 1f; // Default multiplier
-        // Check if the multiplier is active
-        if (Multiplier)
-        {
-            multiplier = 2f;
-        }
-
+       
         if (maxHealth > 100)
         {
             scoreadd = Random.Range(40, 75);
-            scoreadd = Mathf.RoundToInt(scoreadd * multiplier); // Apply multiplier
+            scoreadd = Mathf.RoundToInt(scoreadd ); // Apply multiplier
             score.text = scoreadd + "P";
             score.gameObject.GetComponent<Animator>().SetTrigger("Score2");
             manager.updateScore(scoreadd);
@@ -162,7 +156,7 @@ public class EnemyHealth : MonoBehaviour
         else
         {
             scoreadd = Random.Range(25, 50);
-            scoreadd = Mathf.RoundToInt(scoreadd * multiplier); // Apply multiplier
+            scoreadd = Mathf.RoundToInt(scoreadd ); // Apply multiplier
             score.text = scoreadd + "P";
             score.gameObject.GetComponent<Animator>().SetTrigger("Score");
             manager.updateScore(scoreadd);
