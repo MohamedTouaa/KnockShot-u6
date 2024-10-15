@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float sensX;
-    [SerializeField] private float sensY;
+    [SerializeField] public float sensX;
+    [SerializeField] public float sensY;
 
     [SerializeField] private Transform orientation;
     float rotationX;
@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        print(sensY);
 
     }
     private void Update()
@@ -30,8 +31,6 @@ public class CameraController : MonoBehaviour
         orientation.rotation = Quaternion.Euler(0, rotationY, 0);
 
     }
-    
-   
 
 }
 

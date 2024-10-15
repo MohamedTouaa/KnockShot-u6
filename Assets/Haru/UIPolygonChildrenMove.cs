@@ -19,7 +19,7 @@ public class UIPolygonChildrenMove : MonoBehaviour
         float pastTime = 0;
         while (true)
         {
-            pastTime += Time.deltaTime;
+            pastTime += Time.unscaledDeltaTime;
             if (pastTime >= duration)
             {
                 fromPos = targetPos;
